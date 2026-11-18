@@ -28,6 +28,7 @@ const NavBar = () => {
   const menuRef = useRef(null);
   const menuButtonRef = useRef(null);
   const searchButtonRef = useRef(null);
+  const searchPanelRef = useRef(null);
   const location = useLocation();
 
   // Treat nested routes as active (e.g. /product/123 highlights /product)
@@ -38,6 +39,23 @@ const NavBar = () => {
         : location.pathname.startsWith(path),
     [location.pathname]
   );
+
+  // --- Mutually exclusive toggles -------------------------------------------
+  const toggleProfileMenu = () => {
+    setIsVisible((prev) => {
+      const next = !prev;
+      if (next) setShowSearch(false); // opening profile closes search
+      return next;
+    });
+  };
+
+  const toggleSearch = () => {
+    setShowSearch((prev) => {
+      const next = !prev;
+      if (next) setIsVisible(false); // opening search closes profile
+      return next;
+    });
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -72,6 +90,18 @@ const NavBar = () => {
     setIsVisible(false);
     setShowSearch(false);
   }, [location.pathname]);
+
+  // Auto-focus the search input when the mobile panel opens
+  useEffect(() => {
+    if (!showSearch || !searchPanelRef.current) return;
+    // SearchBar renders an <input>; grab the first one inside the panel.
+    const input = searchPanelRef.current.querySelector("input");
+    if (input) {
+      // Slight delay so the animation/render completes first
+      const t = setTimeout(() => input.focus(), 30);
+      return () => clearTimeout(t);
+    }
+  }, [showSearch]);
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-white/95 sm:backdrop-blur-md border-b border-gray-100 shadow-sm">
@@ -140,7 +170,7 @@ const NavBar = () => {
           {/* MOBILE SEARCH BUTTON */}
           <button
             ref={searchButtonRef}
-            onClick={() => setShowSearch((prev) => !prev)}
+            onClick={toggleSearch}
             aria-label={showSearch ? "Close search" : "Open search"}
             aria-expanded={showSearch}
             aria-controls="mobile-search-panel"
@@ -152,7 +182,7 @@ const NavBar = () => {
           {/* PROFILE / MENU BUTTON */}
           <button
             ref={menuButtonRef}
-            onClick={() => setIsVisible((prev) => !prev)}
+            onClick={toggleProfileMenu}
             aria-label={isVisible ? "Close menu" : "Open menu"}
             aria-expanded={isVisible}
             aria-controls="profile-menu"
@@ -193,7 +223,6 @@ const NavBar = () => {
                 </p>
               </div>
 
-              {/* Primary nav (icon + label) */}
               {NAV_LINKS.map((link) => {
                 const Icon = link.icon;
                 const active = isActive(link.path);
@@ -215,7 +244,6 @@ const NavBar = () => {
                 );
               })}
 
-              {/* Account actions */}
               <div className="mt-2 pt-2 border-t border-gray-100">
                 <Link
                   to="/login"
@@ -242,6 +270,7 @@ const NavBar = () => {
       {/* MOBILE SEARCH DROPDOWN */}
       {showSearch && (
         <div
+          ref={searchPanelRef}
           id="mobile-search-panel"
           className="sm:hidden px-4 pb-4 pt-3 bg-white border-t border-gray-100 shadow-md animate-in fade-in slide-in-from-top-1 duration-150"
         >
