@@ -31,7 +31,6 @@ const NavBar = () => {
   const searchPanelRef = useRef(null);
   const location = useLocation();
 
-  // Treat nested routes as active (e.g. /product/123 highlights /product)
   const isActive = useCallback(
     (path) =>
       path === "/"
@@ -44,15 +43,25 @@ const NavBar = () => {
   const toggleProfileMenu = () => {
     setIsVisible((prev) => {
       const next = !prev;
-      if (next) setShowSearch(false); // opening profile closes search
+      if (next) setShowSearch(false);
       return next;
     });
   };
 
+  // Focus the input *synchronously* on open so mobile browsers
+  // treat it as part of the user gesture and show the keyboard.
   const toggleSearch = () => {
     setShowSearch((prev) => {
       const next = !prev;
-      if (next) setIsVisible(false); // opening search closes profile
+      if (next) {
+        setIsVisible(false);
+        // Give React a tick to mount the panel, then focus.
+        // requestAnimationFrame runs before paint → still within gesture.
+        requestAnimationFrame(() => {
+          const input = searchPanelRef.current?.querySelector("input");
+          input?.focus();
+        });
+      }
       return next;
     });
   };
@@ -91,18 +100,6 @@ const NavBar = () => {
     setShowSearch(false);
   }, [location.pathname]);
 
-  // Auto-focus the search input when the mobile panel opens
-  useEffect(() => {
-    if (!showSearch || !searchPanelRef.current) return;
-    // SearchBar renders an <input>; grab the first one inside the panel.
-    const input = searchPanelRef.current.querySelector("input");
-    if (input) {
-      // Slight delay so the animation/render completes first
-      const t = setTimeout(() => input.focus(), 30);
-      return () => clearTimeout(t);
-    }
-  }, [showSearch]);
-
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-white/95 sm:backdrop-blur-md border-b border-gray-100 shadow-sm">
       <a
@@ -121,7 +118,6 @@ const NavBar = () => {
           <div className="bg-blue-600 p-2 rounded-xl text-white shadow-md shadow-blue-200 group-hover:bg-blue-700 transition">
             <CarTaxiFront size={26} strokeWidth={2.2} />
           </div>
-
           <div>
             <span className="block text-xl md:text-2xl font-extrabold tracking-tight text-gray-900">
               AUTO<span className="text-blue-600">SELL</span>
@@ -196,11 +192,9 @@ const NavBar = () => {
             <div className="w-9 h-9 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
               <UserRound size={21} />
             </div>
-
             <span className="hidden md:block text-sm font-semibold text-gray-700">
               Menu
             </span>
-
             {isVisible ? (
               <X size={18} className="text-blue-600" />
             ) : (
