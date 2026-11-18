@@ -1,5 +1,5 @@
 import React from 'react'
-import { photo } from '../src/assets/assets';
+import { photo } from '../assets/assets';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
