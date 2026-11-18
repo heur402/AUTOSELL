@@ -1,5 +1,5 @@
 import React from "react";
-import { car } from "../src/assets/assets";
+import { car } from "../assets/assets";
 import CarCategory from "../component/CarCategory";
 
 const Product = () => {
