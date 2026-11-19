@@ -25,6 +25,9 @@ import AdminLogin from "./page/admin/AdminLogin";
 import AdminSignup from "./page/admin/AdminSignup";
 import AdminDashboard from "./page/admin/AdminDashboard";
 import ManageCars from "./page/admin/ManageCars";
+import ManageSellers from "./page/admin/ManageSellers";
+import ManageCategories from "./page/admin/ManageCategories";
+import AdminSettings from "./page/admin/AdminSettings";
 
 const PublicLayout = ({ children }) => {
   return (
@@ -40,7 +43,6 @@ const App = () => {
   return (
     <Router>
       <Routes>
-
         {/* PUBLIC WEBSITE */}
         <Route
           path="/"
@@ -98,6 +100,21 @@ const App = () => {
             path="cars"
             element={<ManageCars />}
           />
+
+          <Route
+            path="sellers"
+            element={<ManageSellers />}
+          />
+
+          <Route
+            path="categories"
+            element={<ManageCategories />}
+          />
+
+          <Route
+            path="settings"
+            element={<AdminSettings />}
+          />
         </Route>
 
         {/* UNKNOWN ROUTES */}
@@ -105,7 +122,6 @@ const App = () => {
           path="*"
           element={<Navigate to="/" replace />}
         />
-
       </Routes>
     </Router>
   );
