@@ -1,13 +1,19 @@
-import { car } from "../assets/assets";
+
 import React from "react";
 import CarCard from "./Carcard";
 
-const CarGrid = ({ cars }) => {
+const CarGrid = ({ cars = [], onAddToCart }) => {
   return (
-    <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {cars.map((car) => (
-        <CarCard key={car.id} car={car} />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+      {cars.map((car, index) => (
+        <CarCard
+          key={car.id ?? `${car.carBrand}-${index}`}
+          car={car}
+          onAddToCart={onAddToCart}
+        />
       ))}
+
     </div>
   );
 };
