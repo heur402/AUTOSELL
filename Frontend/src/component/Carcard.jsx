@@ -100,46 +100,8 @@ const CarCard = ({ car, onAddToCart }) => {
             </p>
           </div>
 
-          <div className="bg-blue-50 text-blue-600 p-2 rounded-lg shrink-0">
-            <ArrowUpRight size={20} />
-          </div>
-
         </div>
 
-        {/* SPECIFICATIONS */}
-        <div className="grid grid-cols-3 gap-2 border-y border-gray-100 py-4">
-
-          <div className="flex flex-col items-center gap-2">
-            <CalendarDays size={19} className="text-blue-600" />
-
-            <span className="text-xs text-gray-400">Year</span>
-
-            <span className="text-sm font-semibold text-gray-800">
-              {car.year || "N/A"}
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center gap-2 border-x border-gray-100">
-            <Fuel size={19} className="text-blue-600" />
-
-            <span className="text-xs text-gray-400">Fuel</span>
-
-            <span className="text-sm font-semibold text-gray-800">
-              {car.fuel || "N/A"}
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center gap-2">
-            <CarFront size={19} className="text-blue-600" />
-
-            <span className="text-xs text-gray-400">Type</span>
-
-            <span className="text-sm font-semibold text-gray-800 truncate max-w-full">
-              {car.type || "N/A"}
-            </span>
-          </div>
-
-        </div>
 
         {/* PRICE */}
         <div className="mt-5 mb-5">
