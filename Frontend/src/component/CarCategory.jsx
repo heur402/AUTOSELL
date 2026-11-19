@@ -138,31 +138,6 @@ const CarCategory = ({ cars = [] }) => {
 
   return (
     <div className="pb-16">
-
-      {/* PAGE INTRODUCTION */}
-      <section className="bg-[#083463] text-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-16">
-
-          <div className="max-w-2xl">
-
-            <p className="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-3">
-              AUTOSELL Marketplace
-            </p>
-
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">
-              Find Your Perfect Car
-            </h1>
-
-            <p className="text-gray-200 leading-7 text-sm md:text-base">
-              Explore our collection of vehicles, compare your options
-              and discover a car that matches your needs and budget.
-            </p>
-
-          </div>
-
-        </div>
-      </section>
-
       {/* MAIN CONTENT */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 mt-10">
 
