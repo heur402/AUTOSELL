@@ -8,7 +8,7 @@ import {
   Tags,
   Settings,
   LogOut,
-  Store,
+  CarTaxiFront,
   X,
 } from "lucide-react";
 
@@ -54,7 +54,7 @@ const AdminSidebar = ({ mobileOpen, onClose }) => {
       <div className="flex items-center justify-between border-b border-white/10 px-5 py-6 lg:px-6">
         <div className="flex items-center gap-3">
           <div className="rounded-xl bg-white p-2.5 text-[#083463] shadow-sm">
-            <Store size={23} />
+            <CarTaxiFront size={23} />
           </div>
 
           <div className={mobile ? "block" : "hidden lg:block"}>
