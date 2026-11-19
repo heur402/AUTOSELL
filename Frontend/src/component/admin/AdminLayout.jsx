@@ -1,10 +1,12 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 import AdminNavbar from "./AdminNavbar";
 
 const AdminLayout = () => {
   const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const pageTitles = {
     "/admin/dashboard": "Dashboard",
@@ -17,15 +19,31 @@ const AdminLayout = () => {
   const title = pageTitles[location.pathname] || "Admin Panel";
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <AdminSidebar />
+    <div className="min-h-screen bg-gray-50">
 
-      <div className="flex-1 min-w-0">
-        <AdminNavbar title={title} />
+      <div className="flex min-h-screen">
 
-        <main className="p-6 md:p-8">
-          <Outlet />
-        </main>
+        {/* SIDEBAR */}
+        <AdminSidebar
+          mobileOpen={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+        />
+
+        {/* MAIN CONTENT */}
+        <div className="min-w-0 flex-1">
+
+          {/* NAVBAR */}
+          <AdminNavbar
+            title={title}
+            onMenuClick={() => setMobileOpen(true)}
+          />
+
+          {/* PAGE CONTENT */}
+          <main className="p-4 sm:p-6 lg:p-8">
+            <Outlet />
+          </main>
+
+        </div>
       </div>
     </div>
   );
